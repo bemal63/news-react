@@ -28,6 +28,22 @@ const Main = () => {
     fetchNews(currentPage);
   }, [currentPage]);
 
+  const hendleNextPage = () => {
+    if (currentPage < totalPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const hendlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const hendlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <main className={styles.main}>
       {news.length > 0 && !isLoading ? (
@@ -35,7 +51,13 @@ const Main = () => {
       ) : (
         <Skeleton type={"banner"} count={1} />
       )}
-      <Pagination totalPage={totalPage} />
+      <Pagination
+        hendlePrevPage={hendlePrevPage}
+        hendleNextPage={hendleNextPage}
+        hendlePageClick={hendlePageClick}
+        totalPage={totalPage}
+        currentPage={currentPage}
+      />
       {!isLoading ? (
         <NewsList news={news} />
       ) : (
