@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import styles from "./styles.module.css";
 
-const Skeleton = ({ count = 1, type = "item" }) => {
+const Skeleton = ({ count = 1, type = "banner" }) => {
   return (
     <div>
       {count > 1 ? (

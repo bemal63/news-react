@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import styles from "./styles.module.css";
 
-const Pagination = ({
+export const Pagination = ({
   totalPage,
   hendlePrevPage,
   hendleNextPage,
@@ -10,7 +10,7 @@ const Pagination = ({
 }) => {
   return (
     <div className={styles.pagination}>
-      <button onClick={hendlePrevPage} className={styles.arrow}>
+      <button disabled={currentPage <= 1} onClick={hendlePrevPage} className={styles.arrow}>
         {"<"}
       </button>
       <div className={styles.list}>
@@ -27,11 +27,9 @@ const Pagination = ({
           );
         })}
       </div>
-      <button onClick={hendleNextPage} className={styles.arrow}>
+      <button disabled={currentPage >= totalPage} onClick={hendleNextPage} className={styles.arrow}>
         {">"}
       </button>
     </div>
   );
 };
-
-export default Pagination;

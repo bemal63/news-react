@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { getNews } from "../api/apiNews";
 import NewsList from "../components/NewsList/NewsList";
 import Skeleton from "../components/Skeleton/Skeleton";
-import Pagination from "../components/Pagination/Pagination";
+import { Pagination } from "../components/Pagination/Pagination";
 
 const Main = () => {
   const [news, setNews] = useState([]);
@@ -51,6 +51,11 @@ const Main = () => {
       ) : (
         <Skeleton type={"banner"} count={1} />
       )}
+      {!isLoading ? (
+        <NewsList news={news} />
+      ) : (
+        <Skeleton type={"item"} count={10} />
+      )}
       <Pagination
         hendlePrevPage={hendlePrevPage}
         hendleNextPage={hendleNextPage}
@@ -58,11 +63,6 @@ const Main = () => {
         totalPage={totalPage}
         currentPage={currentPage}
       />
-      {!isLoading ? (
-        <NewsList news={news} />
-      ) : (
-        <Skeleton type={"item"} count={10} />
-      )}
     </main>
   );
 };
