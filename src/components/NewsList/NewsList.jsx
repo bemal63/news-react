@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import NewsItem from "../NewsItem/NewsItem";
 import styles from "./styles.module.css";
 

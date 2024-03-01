@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { formatTimeAgo } from "../../helpers/formatTimeAgo";
 import styles from "./styles.module.css";
 
