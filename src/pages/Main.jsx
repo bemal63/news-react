@@ -6,6 +6,8 @@ import NewsList from "../components/NewsList/NewsList";
 import Skeleton from "../components/Skeleton/Skeleton";
 import { Pagination } from "../components/Pagination/Pagination";
 import { Categories } from "../components/Categories/Categories";
+import { Search } from "../components/Search/Search";
+import { useDebounce } from "../helpers/hooks/useDebounced";
 
 const Main = () => {
   const [news, setNews] = useState([]);
@@ -13,8 +15,10 @@ const Main = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [categories, setCategories] = useState([]);
   const [selectCategories, setSelectCategories] = useState("All");
+  const [keywords, setKeywords] = useState("")
   const totalPage = 10;
   const pageSize = 10;
+  const debouncedKeywords = useDebounce(keywords, 1500)
 
   const fetchNews = async (currentPage) => {
     try {
@@ -23,6 +27,7 @@ const Main = () => {
         page_number: currentPage,
         page_size: pageSize,
         category: selectCategories === "All" ? null : selectCategories,
+        keywords: debouncedKeywords,
       });
       setNews(responseNews.news);
       setIsLoading(false);
@@ -39,7 +44,6 @@ const Main = () => {
       console.log(error);
     }
   };
-  console.log(categories);
 
   useEffect(() => {
     fetchCategories();
@@ -47,8 +51,8 @@ const Main = () => {
 
   useEffect(() => {
     fetchNews(currentPage);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, selectCategories]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, selectCategories, debouncedKeywords]);
 
   const hendleNextPage = () => {
     if (currentPage < totalPage) {
@@ -66,6 +70,8 @@ const Main = () => {
     setCurrentPage(pageNumber);
   };
 
+  console.log(keywords)
+
   return (
     <main className={styles.main}>
       <Categories
@@ -73,11 +79,19 @@ const Main = () => {
         setSelectCategories={setSelectCategories}
         selectCategories={selectCategories}
       />
+      <Search keywords={keywords} setKeywords={setKeywords} />
       {news.length > 0 && !isLoading ? (
         <NewsBanner item={news[0]} />
       ) : (
         <Skeleton type={"banner"} count={1} />
       )}
+      <Pagination
+        hendlePrevPage={hendlePrevPage}
+        hendleNextPage={hendleNextPage}
+        hendlePageClick={hendlePageClick}
+        totalPage={totalPage}
+        currentPage={currentPage}
+      />
       {!isLoading ? (
         <NewsList news={news} />
       ) : (
