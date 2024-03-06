@@ -1,8 +1,16 @@
-.list {
+.columnList {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
+.rowList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  width: 100%;
+  gap: 12px;
+}
+
 
 .banner {
   width: 100%;
@@ -15,6 +23,13 @@
   height: 80px;
 }
 
+.column {
+
+}
+
+.row {
+  
+}
 .banner, 
 .item {
   background: linear-gradient(-90deg, #f0f0f0 0%, #9a9a9a 50%, #f0f0f0 100%);

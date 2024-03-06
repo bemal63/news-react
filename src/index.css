@@ -9,6 +9,11 @@
   font-family: "Inter", sans-serif;
 }
 
+body {
+  max-width: 1360px;
+  margin: auto;
+}
+
 .container {
   padding: 24px;
   min-height: 100vh;
