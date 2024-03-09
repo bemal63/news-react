@@ -1,0 +1,33 @@
+.categories {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: flex-start;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.item,
+.active {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 32px;
+  background-color: #f2f4f5;
+}
+
+.active {
+  background-color: #e7e7ff;
+  color: #6b4eff;
+  cursor: default;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
