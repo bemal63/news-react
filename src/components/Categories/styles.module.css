@@ -3,7 +3,6 @@
   gap: 8px;
   width: 100%;
   align-items: flex-start;
-  box-sizing: border-box;
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;

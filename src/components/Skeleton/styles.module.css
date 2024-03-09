@@ -23,13 +23,6 @@
   height: 80px;
 }
 
-.column {
-
-}
-
-.row {
-  
-}
 .banner, 
 .item {
   background: linear-gradient(-90deg, #f0f0f0 0%, #9a9a9a 50%, #f0f0f0 100%);

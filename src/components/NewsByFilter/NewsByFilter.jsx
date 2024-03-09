@@ -1,11 +1,29 @@
-
-import { TOTAL_PAGES } from "../../constants/constants";
+import { getNews } from "../../api/apiNews";
+import { PAGE_SIZE, TOTAL_PAGES } from "../../constants/constants";
+import { useDebounce } from "../../helpers/hooks/useDebounced";
+import { useFetch } from "../../helpers/hooks/useFetch";
+import { useFilters } from "../../helpers/hooks/useFilters";
 import { NewsFilters } from "../NewsFilters/NewsFilters";
 import NewsList from "../NewsList/NewsList";
-import { Pagination } from "../Pagination/Pagination";
+import { PaginationWrapper } from "../PaginationWrapper/PaginationWrapper";
 import styles from "./styles.module.css";
 
-const NewsByFilter = ({ filters, changeFilters, isLoading, news }) => {
+const NewsByFilter = () => {
+  const { filters, changeFilters } = useFilters({
+    page_number: 1,
+    page_size: PAGE_SIZE,
+    category: null,
+    keywords: "",
+  });
+
+  const debouncedKeywords = useDebounce(filters.keywords, 1500);
+
+  const { data, isLoading } = useFetch(getNews, {
+    ...filters,
+    keywords: debouncedKeywords,
+  });
+
+  console.log(filters.keywords);
 
   const hendleNextPage = () => {
     if (filters.page_number < TOTAL_PAGES) {
@@ -25,24 +43,17 @@ const NewsByFilter = ({ filters, changeFilters, isLoading, news }) => {
   return (
     <section className={styles.section}>
       <NewsFilters filters={filters} changeFilters={changeFilters} />
-      
-      <Pagination
+
+      <PaginationWrapper
+        top
         hendlePrevPage={hendlePrevPage}
         hendleNextPage={hendleNextPage}
         hendlePageClick={hendlePageClick}
         totalPage={TOTAL_PAGES}
         currentPage={filters.page_number}
-      />
-
-      <NewsList isLoading={isLoading} news={news} />
-
-      <Pagination
-        hendlePrevPage={hendlePrevPage}
-        hendleNextPage={hendleNextPage}
-        hendlePageClick={hendlePageClick}
-        totalPage={TOTAL_PAGES}
-        currentPage={filters.page_number}
-      />
+      >
+        <NewsList isLoading={isLoading} news={data?.news} />
+      </PaginationWrapper>
     </section>
   );
 };
