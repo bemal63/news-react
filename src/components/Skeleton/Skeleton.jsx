@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
 import styles from "./styles.module.css";
 
-const Skeleton = ({ count = 1, type = "banner", direction="column" }) => {
+const Skeleton = ({ count = 1, type = "banner", direction = "column" }) => {
   return (
     <>
       {count > 1 ? (
-        <ul className={direction === "banner"? styles.columnList : styles.rowList}>
+        <ul
+          className={
+            direction === "culumn" ? styles.columnList : styles.rowList
+          }
+        >
           {[...Array(count)].map((_, index) => {
             <li
               key={index}
