@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import * as React from "react";
 import styles from "./styles.module.css";
 
 const Skeleton = ({ count = 1, type = "banner", direction = "column" }) => {
@@ -11,10 +12,12 @@ const Skeleton = ({ count = 1, type = "banner", direction = "column" }) => {
           }
         >
           {[...Array(count)].map((_, index) => {
-            <li
-              key={index}
-              className={type === "banner" ? styles.banner : styles.item}
-            ></li>;
+            return (
+              <li
+                key={index}
+                className={type === "banner" ? styles.banner : styles.item}
+              ></li>
+            );
           })}
         </ul>
       ) : (
