@@ -35,7 +35,6 @@ export const Categories = forwardRef(
             </button>
           );
         })}
-        s
       </div>
     );
   }

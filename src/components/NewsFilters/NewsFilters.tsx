@@ -8,21 +8,23 @@ import { CategoriApiResponse, IFilters } from "../../interfaces";
 
 interface Props {
   filters: IFilters;
-  changeFilters: (key: string, value: string | number | null) => void
+  changeFilters: (key: string, value: string | number | null) => void;
 }
 
 export const NewsFilters = ({ filters, changeFilters }: Props) => {
-  const { data: dataCategories } = useFetch<CategoriApiResponse, null>(getCategories);
+  const { data: dataCategories } = useFetch<CategoriApiResponse, null>(
+    getCategories
+  );
   return (
     <div className={styles.filters}>
       {dataCategories ? (
         <Slider>
           <Categories
             categories={dataCategories.category}
+            selectCategories={filters.category}
             setSelectCategories={(category) =>
               changeFilters("category", category)
             }
-            selectCategories={filters.category}
           />
         </Slider>
       ) : null}
