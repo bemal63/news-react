@@ -1,14 +1,24 @@
 /* eslint-disable react/prop-types */
-import * as React from "react";
 import styles from "./styles.module.css";
+import { DirectionType, SkeletonType } from "../../interfaces";
 
-const Skeleton = ({ count = 1, type = "banner", direction = "column" }) => {
+interface Props {
+  type?: SkeletonType;
+  count?: number;
+  direction?: DirectionType;
+}
+
+const Skeleton = ({
+  count = 1,
+  type = "banner",
+  direction = "column",
+}: Props) => {
   return (
     <>
       {count > 1 ? (
         <ul
           className={
-            direction === "culumn" ? styles.columnList : styles.rowList
+            direction === "column" ? styles.columnList : styles.rowList
           }
         >
           {[...Array(count)].map((_, index) => {

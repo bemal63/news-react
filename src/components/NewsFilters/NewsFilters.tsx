@@ -4,15 +4,21 @@ import { Categories } from "../Categories/Categories";
 import { Search } from "../Search/Search";
 import { Slider } from "../Slider/Slider";
 import styles from "./styles.module.css";
+import { CategoriApiResponse, IFilters } from "../../interfaces";
 
-export const NewsFilters = ({ filters, changeFilters }) => {
-  const { data: dataCategories } = useFetch(getCategories);
+interface Props {
+  filters: IFilters;
+  changeFilters: (key: string, value: string | number | null) => void
+}
+
+export const NewsFilters = ({ filters, changeFilters }: Props) => {
+  const { data: dataCategories } = useFetch<CategoriApiResponse, null>(getCategories);
   return (
     <div className={styles.filters}>
       {dataCategories ? (
         <Slider>
           <Categories
-            categories={dataCategories.categories}
+            categories={dataCategories.category}
             setSelectCategories={(category) =>
               changeFilters("category", category)
             }

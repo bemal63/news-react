@@ -1,9 +1,10 @@
 import { useState } from "react"
+import { IFilters } from "../../interfaces";
 
-export const useFilters = (initialFilters) => {
-  const [filters, setFilters] = useState(initialFilters);
+export const useFilters = (initialFilters: IFilters) => {
+  const [filters, setFilters] = useState<IFilters>(initialFilters);
 
-  const changeFilters = (key, value) => {
+  const changeFilters = (key: string, value: string | number | null) => {
     setFilters((prev) => {
       return { ...prev, [key]: value };
     });

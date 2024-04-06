@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import styles from "./styles.module.css";
+import { IPaginationProps } from "../../interfaces";
 
 export const Pagination = ({
   totalPage,
@@ -7,10 +8,14 @@ export const Pagination = ({
   hendleNextPage,
   hendlePageClick,
   currentPage,
-}) => {
+}: IPaginationProps) => {
   return (
     <div className={styles.pagination}>
-      <button disabled={currentPage <= 1} onClick={hendlePrevPage} className={styles.arrow}>
+      <button
+        disabled={currentPage <= 1}
+        onClick={hendlePrevPage}
+        className={styles.arrow}
+      >
         {"<"}
       </button>
       <div className={styles.list}>
@@ -27,7 +32,11 @@ export const Pagination = ({
           );
         })}
       </div>
-      <button disabled={currentPage >= totalPage} onClick={hendleNextPage} className={styles.arrow}>
+      <button
+        disabled={currentPage >= totalPage}
+        onClick={hendleNextPage}
+        className={styles.arrow}
+      >
         {">"}
       </button>
     </div>
