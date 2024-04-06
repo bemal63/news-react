@@ -1,7 +1,11 @@
 import styles from "./styles.module.css";
 
-// eslint-disable-next-line react/prop-types
-export const Search = ({ keywords, setKeywords }) => {
+interface Props {
+  keywords: string;
+  setKeywords: (keywords: string) => void;
+}
+
+export const Search = ({ keywords, setKeywords }: Props) => {
   return (
     <div className={styles.search}>
       <input

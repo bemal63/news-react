@@ -7,6 +7,7 @@ import { NewsFilters } from "../NewsFilters/NewsFilters";
 import NewsList from "../NewsList/NewsList";
 import { PaginationWrapper } from "../PaginationWrapper/PaginationWrapper";
 import styles from "./styles.module.css";
+import { NewsApiResponse, ParamsType } from "../../interfaces";
 
 const NewsByFilter = () => {
   const { filters, changeFilters } = useFilters({
@@ -18,7 +19,7 @@ const NewsByFilter = () => {
 
   const debouncedKeywords = useDebounce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch(getNews, {
+  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
     ...filters,
     keywords: debouncedKeywords,
   });
@@ -27,17 +28,17 @@ const NewsByFilter = () => {
 
   const hendleNextPage = () => {
     if (filters.page_number < TOTAL_PAGES) {
-      changeFilters(filters.page_number + 1);
+      changeFilters("page_number", filters.page_number + 1);
     }
   };
 
   const hendlePrevPage = () => {
     if (filters.page_number > 1) {
-      changeFilters(filters.page_number - 1);
+      changeFilters("page_number", filters.page_number - 1);
     }
   };
 
-  const hendlePageClick = (pageNumber) => {
+  const hendlePageClick = (pageNumber: number) => {
     changeFilters("page_number", pageNumber);
   };
   return (
