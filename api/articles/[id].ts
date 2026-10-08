@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { loadArticle } from "../../server/article";
+import { loadArticle } from "../../server/article.js";
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
