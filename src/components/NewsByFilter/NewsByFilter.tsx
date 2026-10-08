@@ -19,15 +19,15 @@ const NewsByFilter = () => {
 
   const debouncedKeywords = useDebounce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
+  const { data, isLoading, error } = useFetch<NewsApiResponse, ParamsType>(getNews, {
     ...filters,
     keywords: debouncedKeywords,
   });
 
-  console.log(filters.keywords);
+  const totalPages = Math.min(data?.totalPages || 1, TOTAL_PAGES);
 
   const hendleNextPage = () => {
-    if (filters.page_number < TOTAL_PAGES) {
+    if (filters.page_number < totalPages) {
       changeFilters("page_number", filters.page_number + 1);
     }
   };
@@ -45,12 +45,14 @@ const NewsByFilter = () => {
     <section className={styles.section}>
       <NewsFilters filters={filters} changeFilters={changeFilters} />
 
+      {error && <p role="alert">Could not load news. Please try again later.</p>}
+      {!isLoading && !error && data?.news.length === 0 && <p>No news found.</p>}
       <PaginationWrapper
         top
         hendlePrevPage={hendlePrevPage}
         hendleNextPage={hendleNextPage}
         hendlePageClick={hendlePageClick}
-        totalPage={TOTAL_PAGES}
+        totalPage={totalPages}
         currentPage={filters.page_number}
       >
         <NewsList isLoading={isLoading} news={data?.news} />

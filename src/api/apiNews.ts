@@ -1,64 +1,48 @@
 import axios from "axios";
-import { CategoriApiResponse, NewsApiResponse, ParamsType } from "../interfaces";
+import { CategoriApiResponse, CategoriType, INews, NewsApiResponse, ParamsType } from "../interfaces";
 
 const BASE_URL = import.meta.env.VITE_NEWS_BASE_API_URL;
-const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+const categories: CategoriType[] = ["technology", "programming", "science", "business", "health", "environment"];
 
+interface Story {
+  objectID: string;
+  title: string | null;
+  url: string | null;
+  author: string;
+  created_at: string;
+}
+interface SearchResponse {
+  hits: Story[];
+  page: number;
+  nbPages: number;
+}
 
-export const getNews = async (params?: ParamsType): Promise<NewsApiResponse> => {
-  try {
-    const {
-      page_number = 1,
-      page_size = 10,
-      category,
-      keywords,
-    } = params || {};
-    const responseNews = await axios.get<NewsApiResponse>(`${BASE_URL}search`, {
-      params: {
-        apiKey: API_KEY,
-        page_number,
-        page_size,
-        category,
-        keywords,
-      },
-    });
-    return responseNews.data;
-  } catch (error) {
-    console.log(error);
-    return {news: [], page: 1, status: "error"}
-  }
+const fetchNews = async (params: ParamsType = {}): Promise<NewsApiResponse> => {
+  if (!BASE_URL) throw new Error("News API URL is not configured.");
+  const { page_number = 1, page_size = 10, category, keywords = "" } = params;
+  const query = [category, keywords.trim()].filter(Boolean).join(" ");
+  const { data } = await axios.get<SearchResponse>(`${BASE_URL.replace(/\/$/, "")}/search_by_date`, {
+    params: { tags: "story", query, page: page_number - 1, hitsPerPage: page_size },
+    timeout: 15000,
+  });
+  if (!Array.isArray(data.hits)) throw new Error("Unexpected news API response.");
+  const news: INews[] = data.hits.filter((story) => story.title).map((story) => ({
+    id: story.objectID,
+    title: story.title!,
+    url: story.url || `https://news.ycombinator.com/item?id=${story.objectID}`,
+    author: story.author,
+    published: story.created_at,
+    category: category ? [category] : [],
+    description: "",
+    image: "/news-placeholder.svg",
+    language: "en",
+  }));
+  return { news, page: data.page + 1, totalPages: data.nbPages, status: "ok" };
 };
 
-export const getLatestNews = async (): Promise<NewsApiResponse> => {
-  try {
-    const responseCategories = await axios.get<NewsApiResponse>(
-      `${BASE_URL}latest-news`,
-      {
-        params: {
-          apiKey: API_KEY,
-        },
-      }
-    );
-    return responseCategories.data;
-  } catch (error) {
-    console.log(error);
-    return {news: [], page: 1, status: "error"}
-  }
-};
-
-export const getCategories = async (): Promise<CategoriApiResponse> => {
-  try {
-    const responseCategories = await axios.get<CategoriApiResponse>(
-      `${BASE_URL}available/categories`,
-      {
-        params: {
-          apiKey: API_KEY,
-        },
-      }
-    );
-    return responseCategories.data;
-  } catch (error) {
-    console.log(error);
-    return {category: [], description: "", status: "error"}
-  }
-};
+export const getNews = (params?: ParamsType): Promise<NewsApiResponse> => fetchNews(params);
+export const getLatestNews = (): Promise<NewsApiResponse> => fetchNews({ page_size: 6 });
+// Hacker News has no category taxonomy; these buttons search for topics.
+export const getCategories = async (): Promise<CategoriApiResponse> => ({
+  category: categories, description: "Hacker News topics", status: "ok",
+});

@@ -7,7 +7,15 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "isolatedModules": true,
-    "noEmit": false
+    "noEmit": false,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "strict": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",
+    "server/**/*.ts"
+  ]
 }

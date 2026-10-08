@@ -6,7 +6,7 @@ export const useFilters = (initialFilters: IFilters) => {
 
   const changeFilters = (key: string, value: string | number | null) => {
     setFilters((prev) => {
-      return { ...prev, [key]: value };
+      return { ...prev, [key]: value, ...(key !== "page_number" ? { page_number: 1 } : {}) };
     });
   };
   return {filters, changeFilters}

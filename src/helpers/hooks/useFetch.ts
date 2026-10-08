@@ -16,20 +16,23 @@ export const useFetch = <T, P>(fetchFunction: FetchFunction<P, T>, params?: P): 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const stringParams = params ? new URLSearchParams(JSON.stringify(params)).toString() : "";
+  const stringParams = params ? JSON.stringify(params) : "";
 
   useEffect(() => {
+    let active = true;
     (async () => {
       try {
         setIsLoading(true);
+        setError(null);
         const result = await fetchFunction(params);
-        setData(result);
+        if (active) setData(result);
       } catch (error) {
-        setError(error as Error);
+        if (active) { setError(error as Error); setData(null); }
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     })();
+    return () => { active = false; };
   }, [fetchFunction, stringParams]); 
   return { data, isLoading, error };
 };

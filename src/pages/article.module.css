@@ -1,0 +1,157 @@
+.article {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 8px 0 56px;
+  color: #202629;
+  overflow-wrap: anywhere;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 32px;
+  color: #46535c;
+  font-size: 14px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.source {
+  color: #2563a6;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-size: 14px;
+  color: #46535c;
+  line-height: 1.5;
+}
+
+.submitted {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #58636b;
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f2f4f5;
+  margin-bottom: 36px;
+}
+
+.body {
+  max-width: 68ch;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.body h2 {
+  font-size: 26px;
+  line-height: 1.35;
+  margin: 36px 0 16px;
+}
+
+.body blockquote {
+  border-left: 3px solid #c4cdd3;
+  padding-left: 20px;
+  margin: 24px 0;
+}
+
+.body pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 14px;
+  background: #f2f4f5;
+  padding: 16px;
+  margin: 24px 0;
+  overflow-wrap: anywhere;
+}
+
+.body p {
+  margin-bottom: 24px;
+  white-space: pre-line;
+}
+
+.notice {
+  padding: 24px;
+  background: #f2f4f5;
+  border-radius: 8px;
+  line-height: 1.7;
+}
+
+.notice h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.original {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 12px;
+  color: #2563a6;
+}
+
+.footer {
+  border-top: 1px solid #e0e5e8;
+  margin-top: 40px;
+  padding-top: 20px;
+  color: #58636b;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.footer a {
+  color: #2563a6;
+}
+
+.article a:hover {
+  text-decoration: underline;
+}
+
+.article a:focus-visible {
+  outline: 2px solid #2563a6;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  .back {
+    margin-bottom: 20px;
+  }
+  .body {
+    font-size: 17px;
+  }
+  .preview {
+    margin-bottom: 24px;
+  }
+  .notice {
+    padding: 20px;
+  }
+}
+

@@ -28,6 +28,7 @@ export interface CategoriApiResponse {
 
 export interface NewsApiResponse {
   news: INews[]
+  totalPages: number
   page: number
   status: string
 }
