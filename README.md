@@ -24,7 +24,7 @@ Headlines and thumbnails open `/news/:id`. The local Vite middleware at `/api/ar
 
 The source author is distinct from the Hacker News submitter. When no publication date is found, the date is explicitly shown as the time the story was shared on Hacker News. Sources that block extraction, require JavaScript/subscriptions, or contain unsupported media show a link to the original instead. No scripts or remote HTML are rendered in the reader.
 
-This handler runs in the local development server. A static `dist` deployment alone cannot serve `/api/articles`; deployment will need the equivalent server endpoint. No database or LLM is used.
+The same extraction code serves local Vite middleware and the Vercel Function in `api/articles/[id].ts`. Vercel uses Node.js 24, a 30-second function limit, and a rewrite for `/news/:id`. The public API URL is configured through `vercel.json` build environment; local development uses `.env`. No database or LLM is used.
 
 Server type check: `npx tsc -p tsconfig.node.json --noEmit`.
 
